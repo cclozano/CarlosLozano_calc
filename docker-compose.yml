@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  calculadora:
+    container_name: calculadora-api
+    image: cclozano/calculadora-api
+    networks:
+      - testdevops
+    depends_on:
+      - pgdb
+    ports:
+      - "8080:8080"
+    expose:
+      - 61000
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pgdb:5432/calculadora_db
+      SPRING_DATASOURCE_USERNAME : postgres
+      SPRING_DATASOURCE_PASSWORD : postgres
+
+  pgdb:
+    container_name: pgdb
+    image: postgres
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: calculadora_db
+    ports:
+      - 5430:5432
+    networks:
+      - testdevops
+
+networks:
+  testdevops:
+    driver: bridge
+
+volumes:
+  pgdata:

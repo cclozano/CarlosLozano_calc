@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myjavaapi
-        image: aacordov/gomidevops:'$(Build.BuildNumber)'
+        image: cclozano/calculadora-api:'$(Build.BuildNumber)'
         ports:
         - containerPort: 8081
 # service type loadbalancer   
