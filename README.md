@@ -8,4 +8,4 @@ La aplicacion se encuentra disponible en: [calculadora-api](https://calculadora.
 
 ## Diagrama de la aplicacion
 
-![diagrama.png](https://github.com/cclozano/CarlosLozano_calc/blob/main/diagrama.png)
+![plot](./diagrama.png)
