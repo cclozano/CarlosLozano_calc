@@ -1,0 +1,28 @@
+- hosts: cclozano_azure_server
+  vars:
+    server_ip: 52.250.57.129
+  tasks:
+    - name: Run Calculadora APP
+      docker_container:
+        name: calculadora-api
+        image: cclozano/calculadora-api
+        recreate: yes
+        state: started
+        env:
+          TZ: America/Bogota
+          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/calculadora_db
+          SPRING_DATASOURCE_PASSWORD: postgres
+          SPRING_DATASOURCE_USERNAME: postgres
+          spring_datasource_driver-class-name: 'org.postgresql.Driver'
+          spring_jpa_database: postgresql
+        labels:
+          traefik.enable: 'true'
+          traefik.http.routers.calculadora.entrypoints: 'websecure'
+          traefik.http.routers.calculadora.rule: 'Host(`calculadora.{{server_ip}}.nip.io`)'
+          traefik.http.routers.calculadora.service: 'calculadora-service'
+          traefik.http.routers.calculadora.tls.certresolver: 'letsencryptresolver'
+          traefik.http.services.calculadora-service.loadbalancer.server.port: '8080'
+        networks:
+          - name: app_traefik
+        ports:
+          - "8585:8080"
